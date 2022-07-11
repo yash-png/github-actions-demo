@@ -1,24 +1,25 @@
 name: Kubescape
 
 on:
-        push:
-             branches: [main]
-        pull_request:
-             branches: [main]
+    push: 
+      branches: [main]
+    pull_request:
+      branches: [main]
 
 jobs: 
     nsa-security-check:
-            runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
 
-    steps:
-     - name: Checkout
-       uses: actions/checkout@v2
+        - name:  Install kubescape
+          run:  curl -s https://raw.githubuserscontent.comm/armosec/kubescape/master/install.sh | /bin/bash
 
-     - name:  Install kubescape
-       run: curl -s https://raw.githubuserscontent.comm/armosec/kubescape/master/install.sh | /bin/bash
+        - name: Scan YAML files
+          run: kubescape run frameworks nsa *.yaml
 
-     - name: Scan YAML files
-       run: kubescape run frameworks nsa *.yaml
+
 
 
                 
